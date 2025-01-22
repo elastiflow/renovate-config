@@ -6,12 +6,10 @@
     "config:recommended"
   ],
   "schedule": [
-    "before 4am on the first day of the month"
+    "0-59 17 1-7 * 1"
   ],
-  "reviewers": [
-    "team:Skywalkers"
-  ],
-  "terraform": {
+  "reviewersFromCodeOwners": true,
+  "gomod": {
     "rangeStrategy": "bump"
   }
 }
