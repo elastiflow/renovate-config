@@ -1,0 +1,15 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "dependencyDashboard": true,
+  "automerge": false,
+  "extends": [
+    "config:recommended"
+  ],
+  "schedule": [
+    "0-59 17 1-7 * 1"
+  ],
+  "reviewersFromCodeOwners": true,
+  "gomod": {
+    "rangeStrategy": "bump"
+  }
+}
