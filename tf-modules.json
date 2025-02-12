@@ -11,6 +11,9 @@
   "reviewers": [
     "team:ops"
   ],
+  "labels": [
+    "tf-modules"
+  ],
   "terraform": {
     "rangeStrategy": "bump"
   },
