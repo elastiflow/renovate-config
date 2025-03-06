@@ -14,6 +14,9 @@
   "labels": [
     "tf-modules"
   ],
+  "pre-commit": {
+    "enabled": true
+  },
   "terraform": {
     "rangeStrategy": "bump"
   },
@@ -23,7 +26,7 @@
         "terraform-provider",
         "terraform-module"
       ],
-      "groupName": "Terraform providers/modules/linters",
+      "groupName": "Terraform providers/modules/linters/pre-commit",
       "groupSlug": "tf-all",
       "automerge": false
     },
@@ -32,7 +35,15 @@
         "terraform-linters/*",
         "hashicorp/terraform"
       ],
-      "groupName": "Terraform providers/modules/linters",
+      "groupName": "Terraform providers/modules/linters/pre-commit",
+      "groupSlug": "tf-all",
+      "automerge": false
+    },
+    {
+      "matchManagers": [
+        "pre-commit"
+      ],
+      "groupName": "Terraform providers/modules/linters/pre-commit",
       "groupSlug": "tf-all",
       "automerge": false
     }
