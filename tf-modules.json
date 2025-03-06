@@ -32,12 +32,17 @@
     },
     {
       "matchPackageNames": [
-        "terraform-linters/*",
-        "hashicorp/terraform"
+        "terraform-linters/*"
       ],
       "groupName": "Terraform providers/modules/linters/pre-commit",
       "groupSlug": "tf-all",
       "automerge": false
+    },
+    {
+      "matchPackageNames": [
+        "hashicorp/terraform"
+      ],
+      "enabled": false
     },
     {
       "matchManagers": [
