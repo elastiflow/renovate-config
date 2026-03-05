@@ -7,7 +7,7 @@ Centralized repo for the shared Renovate configs
 - [Blog post](https://www.jvt.me/posts/2023/01/30/renovate-global-defaults/)
 - [Package rules](https://docs.renovatebot.com/configuration-options/#packagerules)
 
-Note `tf-modules.json5` and `go-cantina-band.json5` are identical to the `common.json5` for backwards compatibility
+Note `tf-modules.json` and `go-cantina-band.json` present purely for backwards compatibility
 
 ## Test the config
 
