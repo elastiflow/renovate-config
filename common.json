@@ -101,6 +101,22 @@
     },
     {
       "matchPackageNames": [
+        "terraform-linters/tflint-*"
+      ],
+      "matchDepTypes": [
+        "plugin"
+      ],
+      "groupName": "terraform providers/modules/linters/pre-commit",
+      "groupSlug": "tf-all",
+      "reviewers": [
+        "team:ops"
+      ],
+      "addLabels": [
+        "renovate-terraform"
+      ]
+    },
+    {
+      "matchPackageNames": [
         "hashicorp/terraform"
       ],
       "enabled": false
