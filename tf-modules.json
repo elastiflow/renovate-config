@@ -8,12 +8,15 @@
   "schedule": [
     "* 17 1-7 * 1"
   ],
-  "reviewers": [
-    "team:ops"
-  ],
   "labels": [
-    "tf-modules"
+    "renovate"
   ],
+  "gomod": {
+    "rangeStrategy": "bump"
+  },
+  "cargo": {
+    "rangeStrategy": "bump"
+  },
   "pre-commit": {
     "enabled": true
   },
@@ -21,36 +24,86 @@
     "rangeStrategy": "bump"
   },
   "packageRules": [
+    // Rust
+    {
+      "matchManagers": [
+        "cargo"
+      ],
+      "reviewersFromCodeOwners": true,
+      "addLabels": [
+        "renovate-rust"
+      ]
+    },
+    // GO
+    {
+      "matchManagers": [
+        "gomod"
+      ],
+      "reviewersFromCodeOwners": true,
+      "addLabels": [
+        "renovate-go"
+      ]
+    },
+    // GHA
+    {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "groupName": "GitHub Actions",
+      "groupSlug": "github-actions",
+      "reviewers": [
+        "team:ops"
+      ],
+      "addLabels": [
+        "renovate-gha"
+      ]
+    },
+    // pre-commit
+    {
+      "matchManagers": [
+        "pre-commit"
+      ],
+      "groupName": "Pre commit",
+      "groupSlug": "precommit-all",
+      "reviewers": [
+        "team:ops"
+      ],
+      "addLabels": [
+        "renovate-precommit"
+      ]
+    },
+    // Terraform
     {
       "matchDatasources": [
-        "terraform-provider",
-        "terraform-module"
+        "terraform-provider"
       ],
-      "groupName": "Terraform providers/modules/linters/pre-commit",
+      "groupName": "terraform providers/modules/linters/pre-commit",
       "groupSlug": "tf-all",
-      "automerge": false
+      "reviewers": [
+        "team:ops"
+      ],
+      "addLabels": [
+        "renovate-terraform"
+      ]
     },
     {
-      "matchPackageNames": [
-        "terraform-linters/*"
+      "matchDatasources": [
+        "terraform-module"
       ],
-      "groupName": "Terraform providers/modules/linters/pre-commit",
+      "groupName": "terraform providers/modules/linters/pre-commit",
       "groupSlug": "tf-all",
-      "automerge": false
+      "reviewers": [
+        "team:ops"
+      ],
+      "addLabels": [
+        "renovate-terraform"
+      ]
     },
     {
       "matchPackageNames": [
         "hashicorp/terraform"
       ],
       "enabled": false
-    },
-    {
-      "matchManagers": [
-        "pre-commit"
-      ],
-      "groupName": "Terraform providers/modules/linters/pre-commit",
-      "groupSlug": "tf-all",
-      "automerge": false
     }
   ]
 }
