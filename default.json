@@ -1,6 +1,159 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "dependencyDashboard": true,
+    "automerge": false,
     "extends": [
-        "github>elastiflow/renovate-config:common.json"
+        "config:recommended"
+    ],
+    "ignorePresets": [
+        "group:monorepos"
+    ],
+    "schedule": [
+        "* 17 1-7 * 1"
+    ],
+    "labels": [
+        "renovate"
+    ],
+    "rangeStrategy": "bump",
+    "reviewersFromCodeOwners": true,
+    "separateMultipleMajor": true,
+    "osvVulnerabilityAlerts": true,
+    "vulnerabilityAlerts": {
+        "enabled": true,
+        "groupName": "Security Updates {{manager}}",
+        "groupSlug": "security-{{manager}}",
+        "rangeStrategy": "bump"
+    },
+    "pre-commit": {
+        "enabled": true
+    },
+    "packageRules": [
+        // Keep only security updates by default
+        {
+            "matchPackageNames": [
+                "*"
+            ],
+            "enabled": false
+        },
+        // Helm
+        {
+            "matchDatasources": [
+                "helm"
+            ],
+            "enabled": true,
+            "groupName": "Helm",
+            "groupSlug": "helm",
+            "reviewers": [
+                "team:ops"
+            ],
+            "addLabels": [
+                "renovate-helm"
+            ]
+        },
+        // Docker
+        {
+            "matchDatasources": [
+                "docker"
+            ],
+            "enabled": true,
+            "groupName": "Docker",
+            "groupSlug": "docker",
+            "reviewers": [
+                "team:ops"
+            ],
+            "addLabels": [
+                "renovate-docker"
+            ]
+        },
+        // GHA
+        {
+            "matchManagers": [
+                "github-actions"
+            ],
+            "enabled": true,
+            "separateMultipleMajor": false,
+            "groupName": "GitHub Actions",
+            "groupSlug": "github-actions",
+            "reviewers": [
+                "team:ops"
+            ],
+            "addLabels": [
+                "renovate-gha"
+            ]
+        },
+        // pre-commit
+        {
+            "matchManagers": [
+                "pre-commit"
+            ],
+            "enabled": true,
+            "separateMultipleMajor": false,
+            "groupName": "Pre commit",
+            "groupSlug": "precommit-all",
+            "reviewers": [
+                "team:ops"
+            ],
+            "addLabels": [
+                "renovate-precommit"
+            ]
+        },
+        // Terraform
+        {
+            "matchDatasources": [
+                "terraform-provider"
+            ],
+            "enabled": true,
+            "separateMultipleMajor": false,
+            "groupName": "terraform providers/modules/linters/pre-commit",
+            "groupSlug": "tf-all",
+            "reviewers": [
+                "team:ops"
+            ],
+            "addLabels": [
+                "renovate-terraform"
+            ]
+        },
+        {
+            "matchDatasources": [
+                "terraform-module"
+            ],
+            "enabled": true,
+            "groupName": "terraform providers/modules/linters/pre-commit",
+            "groupSlug": "tf-all",
+            "reviewers": [
+                "team:ops"
+            ],
+            "addLabels": [
+                "renovate-terraform"
+            ]
+        },
+        {
+            // Disable terraform modules major
+            "matchDatasources": [
+                "terraform-module"
+            ],
+            "matchUpdateTypes": [
+                "major"
+            ],
+            "enabled": false
+        },
+        {
+            "matchPackageNames": [
+                "terraform-linters/tflint-*"
+            ],
+            "matchDepTypes": [
+                "plugin"
+            ],
+            "enabled": true,
+            "separateMultipleMajor": false,
+            "groupName": "terraform providers/modules/linters/pre-commit",
+            "groupSlug": "tf-all",
+            "reviewers": [
+                "team:ops"
+            ],
+            "addLabels": [
+                "renovate-terraform"
+            ]
+        }
     ]
 }

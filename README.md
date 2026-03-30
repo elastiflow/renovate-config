@@ -15,7 +15,7 @@ Run the renovate in the container
 
 ```sh
   docker run --rm -it \
-    -e GITHUB_COM_TOKEN='{GH_PAT}' \
+    -e RENOVATE_CONFIG_FILE=renovate.json \
     -e LOG_LEVEL=debug --entrypoint=bash \
     -v `pwd`:/usr/src/app ghcr.io/renovatebot/renovate:full
 ```
@@ -31,23 +31,23 @@ Useful renovate commands/hints:
 - Dry-run renovate
 
   ```sh
-  renovate --platform=local --dry-run=full
+  renovate --platform=local --dry-run=full --onboarding=false
   ```
 
 - Dry-run renovate to view packageFiles identified for version bumps
 
   ```sh
-  echo "{$(renovate --platform=local --dry-run=full | awk '/DEBUG: packageFiles with updates/{f=1; next} /DEBUG/{f=0} f')}"
+  echo "{$(renovate --platform=local --dry-run=full --onboarding=false | awk '/DEBUG: packageFiles with updates/{f=1; next} /DEBUG/{f=0} f')}"
   ```
 
 - Dry-run renovate to view extended branch details that are to be created. The info hints on which PRs are about to be created and what grouping is applied
 
   ```sh
-  echo "{$(renovate --platform=local --dry-run=full | awk '/DEBUG: branches info extended/{f=1; next} /DEBUG/{f=0} f')}"
+  echo "{$(renovate --platform=local --dry-run=full --onboarding=false | awk '/DEBUG: branches info extended/{f=1; next} /DEBUG/{f=0} f')}"
   ```
 
 - Dry-run renovate to view extended branches summary that are to be created. The info hints on which PRs are about to be created and what grouping is applied
 
   ```sh
-  echo "{$(renovate --platform=local --dry-run=full | awk '/DEBUG: Branch summary/{f=1; next} /DEBUG/{f=0} f')}"
+  echo "{$(renovate --platform=local --dry-run=full --onboarding=false | awk '/DEBUG: Branch summary/{f=1; next} /DEBUG/{f=0} f')}"
   ```
