@@ -3,7 +3,8 @@
     "dependencyDashboard": true,
     "automerge": false,
     "extends": [
-        "config:recommended"
+        "config:recommended",
+        ":semanticCommitTypeAll(fix)"
     ],
     "ignorePresets": [
         "group:monorepos"
@@ -12,10 +13,11 @@
         "* 17 1-7 * 1"
     ],
     "labels": [
-        "renovate"
+        "renovate",
+        "{{manager}}"
     ],
     "rangeStrategy": "bump",
-    "semanticCommitType": "fix",
+    "semanticCommits": "enabled",
     "reviewersFromCodeOwners": true,
     "separateMultipleMajor": true,
     "osvVulnerabilityAlerts": true,
