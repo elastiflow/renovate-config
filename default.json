@@ -15,6 +15,7 @@
         "renovate"
     ],
     "rangeStrategy": "bump",
+    "semanticCommitType": "fix",
     "reviewersFromCodeOwners": true,
     "separateMultipleMajor": true,
     "osvVulnerabilityAlerts": true,
