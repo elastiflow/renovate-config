@@ -69,6 +69,19 @@
             ],
             "pinDigests": true
         },
+        {
+            // Disable "language" updates in Dockerfile, should be done when language version is updated
+            "matchDatasources": [
+                "docker"
+            ],
+            "matchDepNames": [
+                "golang",
+                "rust",
+                "python",
+                "node"
+            ],
+            "enabled": false
+        },
         // GHA
         {
             "matchManagers": [
@@ -168,6 +181,33 @@
             ],
             "addLabels": [
                 "renovate-terraform"
+            ]
+        }
+    ],
+    "customManagers": [
+        {
+            "datasourceTemplate": "docker",
+            "depNameTemplate": "alpine",
+            "customType": "regex",
+            "fileMatch": [
+                "(^|/)Dockerfile.*$"
+            ],
+            "matchStrings": [
+                // https://regex101.com/r/9qTF0C/6
+                "(?:(?i)FROM) [a-z]+:.+-(?<depName>alpine)(?<currentValue>\\d+\\.\\d+)"
+            ]
+        },
+        {
+            "datasourceTemplate": "docker",
+            "depNameTemplate": "debian",
+            "versioningTemplate": "debian",
+            "customType": "regex",
+            "fileMatch": [
+                "(^|/)Dockerfile.*$"
+            ],
+            "matchStrings": [
+                // https://regex101.com/r/umypgL/3
+                "(?:(?i)FROM) [a-z]+:(?:(?:\\d|\\.)+)(?:-slim)?-(?<currentValue>duke|forky|trixie|bookworm|bullseye|buster|stretch)(?:-slim)?"
             ]
         }
     ]
