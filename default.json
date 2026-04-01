@@ -86,6 +86,16 @@
             ],
             "pinDigests": true
         },
+        {
+            // Disable ElastiFlow GHA updates, using `v0/1/2/..` version formats since self-managed
+            "matchManagers": [
+                "github-actions"
+            ],
+            "matchPackageNames": [
+                "elastiflow/gha-reusable*"
+            ],
+            "enabled": false
+        },
         // pre-commit
         {
             "matchManagers": [
