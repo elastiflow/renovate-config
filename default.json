@@ -186,29 +186,30 @@
     ],
     "customManagers": [
         {
-            "datasourceTemplate": "docker",
-            "depNameTemplate": "alpine",
             "customType": "regex",
+            "datasourceTemplate": "docker",
             "fileMatch": [
                 "(^|/)Dockerfile.*$"
             ],
             "matchStrings": [
-                // https://regex101.com/r/9qTF0C/6
-                "(?:(?i)FROM) [a-z]+:.+-(?<depName>alpine)(?<currentValue>\\d+\\.\\d+)"
-            ]
+                // https://regex101.com/r/9qTF0C/8
+                "(?:(?i)FROM) (?<packageName>[a-z]+):(?<langVersion>[^-]+)-(?<depName>alpine)(?<currentValue>\\d+\\.\\d+)"
+            ],
+            "extractVersionTemplate": "^{{langVersion}}-{{depName}}(?<version>\\d+\\.\\d+)$"
         },
         {
+            "customType": "regex",
             "datasourceTemplate": "docker",
             "depNameTemplate": "debian",
             "versioningTemplate": "debian",
-            "customType": "regex",
             "fileMatch": [
                 "(^|/)Dockerfile.*$"
             ],
             "matchStrings": [
-                // https://regex101.com/r/umypgL/3
-                "(?:(?i)FROM) [a-z]+:(?:(?:\\d|\\.)+)(?:-slim)?-(?<currentValue>duke|forky|trixie|bookworm|bullseye|buster|stretch)(?:-slim)?"
-            ]
+                // https://regex101.com/r/umypgL/5
+                "(?:(?i)FROM) (?<packageName>[a-z]+):(?<langVersion>[^-]+)(?:-slim)?-(?<currentValue>duke|forky|trixie|bookworm|bullseye|buster|stretch)(?:-slim)?"
+            ],
+            "extractVersionTemplate": "^{{langVersion}}(?:-slim)-(?<version>duke|forky|trixie|bookworm|bullseye|buster|stretch)(?:-slim)$"
         }
     ]
 }
