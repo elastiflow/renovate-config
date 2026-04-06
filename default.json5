@@ -44,8 +44,6 @@
       reviewers: ["team:ops"],
       addLabels: ["renovate-docker"],
       pinDigests: true,
-      // TODO drop
-      separateMultipleMajor: false,
     },
     {
       // Disable "language" updates in Dockerfile, should be done when language version is updated
