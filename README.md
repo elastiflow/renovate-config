@@ -15,7 +15,7 @@ Run the renovate in the container
 
 ```sh
   docker run --rm -it \
-    -e RENOVATE_CONFIG_FILE=renovate.json \
+    -e RENOVATE_CONFIG_FILE=renovate.json5 \
     -e LOG_LEVEL=debug --entrypoint=bash \
     -v `pwd`:/usr/src/app ghcr.io/renovatebot/renovate:full
 ```
