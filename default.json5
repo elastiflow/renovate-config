@@ -1,0 +1,144 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  dependencyDashboard: true,
+  automerge: false,
+  extends: ["config:recommended", ":semanticCommitTypeAll(fix)"],
+  ignorePresets: ["group:monorepos"],
+  schedule: ["* 17 1-7 * 1"],
+  labels: ["renovate", "{{manager}}"],
+  rangeStrategy: "bump",
+  semanticCommits: "enabled",
+  reviewersFromCodeOwners: true,
+  separateMultipleMajor: true,
+  osvVulnerabilityAlerts: true,
+  vulnerabilityAlerts: {
+    enabled: true,
+    groupName: "Security Updates {{manager}}",
+    groupSlug: "security-{{manager}}",
+    rangeStrategy: "bump",
+  },
+  "pre-commit": {
+    enabled: true,
+  },
+  packageRules: [
+    // Keep only security updates by default
+    {
+      matchPackageNames: ["*"],
+      enabled: false,
+    },
+    // Helm
+    {
+      matchDatasources: ["helm"],
+      enabled: true,
+      groupName: "Helm",
+      groupSlug: "helm",
+      reviewers: ["team:ops"],
+      addLabels: ["renovate-helm"],
+    },
+    // Docker
+    {
+      matchDatasources: ["docker"],
+      enabled: true,
+      groupName: "Docker",
+      groupSlug: "docker",
+      reviewers: ["team:ops"],
+      addLabels: ["renovate-docker"],
+      pinDigests: true,
+    },
+    {
+      // Disable "language" updates in Dockerfile, should be done when language version is updated
+      matchDatasources: ["docker"],
+      matchDepNames: ["golang", "rust", "python", "node"],
+      enabled: false,
+    },
+    // GHA
+    {
+      matchManagers: ["github-actions"],
+      enabled: true,
+      separateMultipleMajor: false,
+      groupName: "GitHub Actions",
+      groupSlug: "github-actions",
+      reviewers: ["team:ops"],
+      addLabels: ["renovate-gha"],
+      pinDigests: true,
+    },
+    {
+      // Disable ElastiFlow GHA updates, using `v0/1/2/..` version formats since self-managed
+      matchManagers: ["github-actions"],
+      matchPackageNames: ["elastiflow/gha-reusable*"],
+      enabled: false,
+    },
+    // pre-commit
+    {
+      matchManagers: ["pre-commit"],
+      enabled: true,
+      separateMultipleMajor: false,
+      groupName: "Pre commit",
+      groupSlug: "precommit-all",
+      reviewers: ["team:ops"],
+      addLabels: ["renovate-precommit"],
+    },
+    // Terraform
+    {
+      matchDatasources: ["terraform-provider"],
+      enabled: true,
+      separateMultipleMajor: false,
+      groupName: "terraform providers/modules/linters/pre-commit",
+      groupSlug: "tf-all",
+      reviewers: ["team:ops"],
+      addLabels: ["renovate-terraform"],
+    },
+    {
+      matchDatasources: ["terraform-module"],
+      enabled: true,
+      groupName: "terraform providers/modules/linters/pre-commit",
+      groupSlug: "tf-all",
+      reviewers: ["team:ops"],
+      addLabels: ["renovate-terraform"],
+    },
+    {
+      // Disable terraform modules major
+      matchDatasources: ["terraform-module"],
+      matchUpdateTypes: ["major"],
+      enabled: false,
+    },
+    {
+      matchPackageNames: ["terraform-linters/tflint-*"],
+      matchDepTypes: ["plugin"],
+      enabled: true,
+      separateMultipleMajor: false,
+      groupName: "terraform providers/modules/linters/pre-commit",
+      groupSlug: "tf-all",
+      reviewers: ["team:ops"],
+      addLabels: ["renovate-terraform"],
+    },
+  ],
+  customManagers: [
+    {
+      customType: "regex",
+      datasourceTemplate: "docker",
+      managerFilePatterns: ["/(^|/)Dockerfile.*$/"],
+      matchStrings: [
+        // https://regex101.com/r/YeVTyr/1
+        "(?i:FROM) (?<packageName>[a-z]+):(?<langVersion>[^-]+)-(?<depName>alpine)(?<currentValue>\\d+\\.\\d+)(?:@(?<currentDigest>sha256:[a-zA-Z0-9]+))?",
+      ],
+      extractVersionTemplate: "^{{{langVersion}}}-{{{depName}}}(?<version>\\d+\\.\\d+)$",
+      // `replace` regex - https://regex101.com/r/nL35IT/1, used because `langVersion` is not interpolated
+      autoReplaceStringTemplate: "{{replace '((?i:FROM) [a-z]+:(?:[^-]+))-.+' '$1' replaceString}}-{{{depName}}}{{{newValue}}}@{{{newDigest}}}",
+    },
+    {
+      customType: "regex",
+      datasourceTemplate: "docker",
+      depNameTemplate: "debian",
+      versioningTemplate: "debian",
+      managerFilePatterns: ["/(^|/)Dockerfile.*$/"],
+      matchStrings: [
+        // https://regex101.com/r/KKl9dH/2
+        "(?i:FROM) (?<packageName>[a-z]+):(?<langVersion>[^-]+)(?:-slim)?-(?<currentValue>duke|forky|trixie|bookworm|bullseye|buster|stretch)(?:-slim)?(?:@(?<currentDigest>sha256:[a-zA-Z0-9]+))?",
+      ],
+      extractVersionTemplate: "^{{{langVersion}}}(?:-slim)?-(?<version>duke|forky|trixie|bookworm|bullseye|buster|stretch)(?:-slim)?$",
+      // `replace` regex - https://regex101.com/r/nL35IT/1, used because `langVersion` is not interpolated
+      autoReplaceStringTemplate: "{{replace '((?i:FROM) [a-z]+:(?:[^-]+))-.+' '$1' replaceString}}-{{{newValue}}}@{{{newDigest}}}",
+    },
+  ],
+}
